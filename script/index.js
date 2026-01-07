@@ -20,8 +20,8 @@ const displayCategories = (categories) => {
 
         const categoryList = document.createElement("div");
         categoryList.innerHTML = `
-                    <div class="category-list mt-2 text-left">
-                        <button onclick="loadCategoryTrees(${categories[i].id})" class="text-lg font-medium w-full justify-start text-left rounded-md px-2 py-1 hover:bg-[#15803D] hover:text-white">${categories[i].category_name}</button>
+                    <div class="mt-2 text-left">
+                        <button id="category-btn-${categories[i].id}" onclick="loadCategoryTrees(${categories[i].id})" class="text-lg font-medium w-full justify-start text-left rounded-md px-2 py-1 hover:bg-[#15803D] hover:text-white category-btn">${categories[i].category_name}</button>
                     </div>
         `
         categoryContainer.append(categoryList)
@@ -30,13 +30,24 @@ const displayCategories = (categories) => {
 
 }
 
+const removeActive = () => {
+    const categoryButton = document.querySelectorAll(".category-btn")
+    categoryButton.forEach((btn) => btn.classList.remove("active"))
+}
+
 const loadCategoryTrees = (id) => {
     // console.log(id)
     const url = `https://openapi.programming-hero.com/api/category/${id}`
     fetch(url)
         .then(res => res.json())
-        .then(json => displayCategoryTrees(json.plants))
+        .then(json => {
+            removeActive()
+            const clickBtn = document.getElementById(`category-btn-${id}`)
+            clickBtn.classList.add("active")
+            displayCategoryTrees(json.plants)
+        })
 }
+
 
 const displayCategoryTrees = (trees) => {
 
@@ -44,7 +55,6 @@ const displayCategoryTrees = (trees) => {
     cardContainer.innerHTML = " "
 
     for (let i = 0; i < trees.length; i++) {
-        console.log(trees[i].name)
         const categoryTree = document.createElement("div")
         categoryTree.innerHTML = `
            <div id="tree-card"

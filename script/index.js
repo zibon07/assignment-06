@@ -21,7 +21,7 @@ const displayCategories = (categories) => {
         const categoryList = document.createElement("div");
         categoryList.innerHTML = `
                     <div class="category-list mt-2 text-left">
-                        <button class="text-lg font-medium w-full justify-start text-left rounded-md px-2 py-1 hover:bg-[#15803D] hover:text-white">${categories[i].category_name}</button>
+                        <button onclick="loadCategoryTrees(${categories[i].id})" class="text-lg font-medium w-full justify-start text-left rounded-md px-2 py-1 hover:bg-[#15803D] hover:text-white">${categories[i].category_name}</button>
                     </div>
         `
         categoryContainer.append(categoryList)
@@ -29,6 +29,47 @@ const displayCategories = (categories) => {
     }
 
 }
+
+const loadCategoryTrees = (id) => {
+    // console.log(id)
+    const url = `https://openapi.programming-hero.com/api/category/${id}`
+    fetch(url)
+        .then(res => res.json())
+        .then(json => displayCategoryTrees(json.plants))
+}
+
+const displayCategoryTrees = (trees) => {
+
+    const cardContainer = document.getElementById("card-container")
+    cardContainer.innerHTML = " "
+
+    for (let i = 0; i < trees.length; i++) {
+        console.log(trees[i].name)
+        const categoryTree = document.createElement("div")
+        categoryTree.innerHTML = `
+           <div id="tree-card"
+                        class="bg-white flex flex-col gap-3 max-w-[350px] max-h-[480px] rounded-2xl shadow-3xl">
+                        <img class="w-full  max-h-50 rounded-t-2xl object-cover"
+                            src="${trees[i].image}" alt="">
+                        <div class="mx-4 my-1">
+                            <h4 class="text-3xl mb-2 font-bold">${trees[i].name}</h4>
+                            <p class="">${trees[i].description}</p>
+                        </div>
+                        <div class="flex mb-2 justify-between items-center mx-4">
+                            <h3
+                                class=" border-2 border-solid border-green-400   text-green-400 text-lg px-3 rounded-xl">
+                                ${trees[i].category}</h3>
+                            <h2 class="text-xl font-bold text-green-700">৳<span>${trees[i].price}</span></h2>
+                        </div>
+                        <button class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                            Cart</button>
+                    </div>
+        `
+        cardContainer.append(categoryTree)
+    }
+}
+
+
 const loadAllTrees = () => {
     fetch("https://openapi.programming-hero.com/api/plants")
         .then((res) => res.json())
@@ -50,7 +91,7 @@ const displayAllTrees = (allTrees) => {
 
         const treeCard = document.createElement("div")
 
-        treeCard.innerHTML=`
+        treeCard.innerHTML = `
         <div id="tree-card"
                         class="bg-white flex flex-col gap-3 max-w-[350px] max-h-[480px] rounded-2xl shadow-3xl">
                         <img class="w-full  max-h-50 rounded-t-2xl object-cover"

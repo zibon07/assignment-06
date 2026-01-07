@@ -21,7 +21,7 @@ const displayCategories = (categories) => {
         const categoryList = document.createElement("div");
         categoryList.innerHTML = `
                     <div class="category-list mt-2 text-left">
-                        <button class="text-lg font-medium w-full justify-start text-left rounded-md px-2 hover:bg-[#15803D] hover:text-white">${categories[i].category_name}</button>
+                        <button class="text-lg font-medium w-full justify-start text-left rounded-md px-2 py-1 hover:bg-[#15803D] hover:text-white">${categories[i].category_name}</button>
                     </div>
         `
         categoryContainer.append(categoryList)
@@ -36,7 +36,42 @@ const loadAllTrees = () => {
 }
 
 const displayAllTrees = (allTrees) => {
-    console.log(allTrees)
+
+    // 1.get the container
+
+    const cardContainer = document.getElementById("card-container")
+
+    // 2.get into card details
+
+    for (let i = 0; i < allTrees.length; i++) {
+        // console.log(allTrees[i].name)
+
+        // 3.create element
+
+        const treeCard = document.createElement("div")
+
+        treeCard.innerHTML=`
+        <div id="tree-card"
+                        class="bg-white flex flex-col gap-3 max-w-[350px] max-h-[480px] rounded-2xl shadow-3xl">
+                        <img class="w-full  max-h-50 rounded-t-2xl object-cover"
+                            src="${allTrees[i].image}" alt="">
+                        <div class="mx-4 my-1">
+                            <h4 class="text-3xl mb-2 font-bold">${allTrees[i].name}</h4>
+                            <p class="">${allTrees[i].description}</p>
+                        </div>
+                        <div class="flex mb-2 justify-between items-center mx-4">
+                            <h3
+                                class=" border-2 border-solid border-green-400   text-green-400 text-lg px-3 rounded-xl">
+                                ${allTrees[i].category}</h3>
+                            <h2 class="text-xl font-bold text-green-700">৳<span>${allTrees[i].price}</span></h2>
+                        </div>
+                        <button class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                            Cart</button>
+                    </div>
+        `
+        cardContainer.append(treeCard)
+
+    }
 }
 
 

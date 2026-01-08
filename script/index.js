@@ -6,6 +6,7 @@ const loadCategories = () => {
         .then((res) => res.json())
         .then((json) => displayCategories(json.categories))
 }
+
 const displayCategories = (categories) => {
 
     // 1.get the container & empty it
@@ -48,7 +49,6 @@ const loadCategoryTrees = (id) => {
         })
 }
 
-
 const displayCategoryTrees = (trees) => {
 
     const cardContainer = document.getElementById("card-container")
@@ -62,7 +62,7 @@ const displayCategoryTrees = (trees) => {
                         <img class="w-full  max-h-50 rounded-t-2xl object-cover"
                             src="${trees[i].image}" alt="">
                         <div class="mx-4 my-1">
-                            <h4 class="text-3xl mb-2 font-bold">${trees[i].name}</h4>
+                            <h4 onclick="loadWPlantDetail(${trees[i].id})" class="text-3xl mb-2 font-bold">${trees[i].name}</h4>
                             <p class="">${trees[i].description}</p>
                         </div>
                         <div class="flex mb-2 justify-between items-center mx-4">
@@ -78,7 +78,6 @@ const displayCategoryTrees = (trees) => {
         cardContainer.append(categoryTree)
     }
 }
-
 
 const loadAllTrees = () => {
     fetch("https://openapi.programming-hero.com/api/plants")
@@ -107,7 +106,7 @@ const displayAllTrees = (allTrees) => {
                         <img class="w-full  max-h-50 rounded-t-2xl object-cover"
                             src="${allTrees[i].image}" alt="">
                         <div class="mx-4 my-1">
-                            <h4 class="text-3xl mb-2 font-bold">${allTrees[i].name}</h4>
+                            <h4 onclick="loadPlantDetail(${allTrees[i].id})" class="text-3xl mb-2 font-bold">${allTrees[i].name}</h4>
                             <p class="">${allTrees[i].description}</p>
                         </div>
                         <div class="flex mb-2 justify-between items-center mx-4">
@@ -123,6 +122,28 @@ const displayAllTrees = (allTrees) => {
         cardContainer.append(treeCard)
 
     }
+}
+
+const loadPlantDetail = async (id) => {
+    // my_modal_5.showModal()
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`
+    const res = await fetch(url);
+    const details = await res.json()
+    displayModal(details.plants)
+}
+
+const displayModal = (modal) => {
+    console.log(modal)
+    console.log(modal.name)
+    const detailsContainer = document.getElementById("details-container")
+    detailsContainer.innerHTML = `
+     <h2 class="text-2xl mb-2 font-semibold">${modal.name}</h2>
+                    <img class="w-full mb-3 rounded-2xl max-h-[300px] object-cover" src=${modal.image} alt="">
+                    <h2 class="text-2xl mb-2 font-semibold">category: <span class="font-normal">${modal.category}</span></h2>
+                    <h2 class="text-xl font-semibold mb-2 lg">price: $<span class="font-bold">${modal.price}</span></h2>
+                    <h4 class="text-2xl mb-2 font-semibold">Description: <span class="text-normal font-normal">${modal.description}</span></h4>
+    `
+    document.getElementById("my_modal_5").showModal()
 }
 
 

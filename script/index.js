@@ -71,7 +71,7 @@ const displayCategoryTrees = (trees) => {
                                 ${trees[i].category}</h3>
                             <h2 class="text-xl font-bold text-green-700">৳<span>${trees[i].price}</span></h2>
                         </div>
-                        <button class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                        <button onclick="loadCartDetails(${trees[i].id})" class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
                             Cart</button>
                     </div>
         `
@@ -102,20 +102,20 @@ const displayAllTrees = (allTrees) => {
 
         treeCard.innerHTML = `
         <div id="tree-card"
-                        class="bg-white flex flex-col gap-3 max-w-[350px] max-h-[480px] rounded-2xl shadow-3xl">
+                        class="bg-white flex flex-col gap-3 max-w-[330px] max-h-[500px] rounded-2xl shadow-3xl">
                         <img class="w-full  max-h-50 rounded-t-2xl object-cover"
                             src="${allTrees[i].image}" alt="">
                         <div class="mx-4 my-1">
-                            <h4 onclick="loadPlantDetail(${allTrees[i].id})" class="text-3xl mb-2 font-bold">${allTrees[i].name}</h4>
+                            <h4 onclick="loadPlantDetail(${allTrees[i].id})" class="text-3xl mb-1 font-bold">${allTrees[i].name}</h4>
                             <p class="">${allTrees[i].description}</p>
                         </div>
-                        <div class="flex mb-2 justify-between items-center mx-4">
+                        <div class="flex mb-1 justify-between items-center mx-4">
                             <h3
                                 class=" border-2 border-solid border-green-400   text-green-400 text-lg px-3 rounded-xl">
                                 ${allTrees[i].category}</h3>
                             <h2 class="text-xl font-bold text-green-700">৳<span>${allTrees[i].price}</span></h2>
                         </div>
-                        <button class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                        <button onclick="loadCartDetails(${allTrees[i].id})" class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
                             Cart</button>
                     </div>
         `
@@ -133,8 +133,6 @@ const loadPlantDetail = async (id) => {
 }
 
 const displayModal = (modal) => {
-    console.log(modal)
-    console.log(modal.name)
     const detailsContainer = document.getElementById("details-container")
     detailsContainer.innerHTML = `
      <h2 class="text-2xl mb-2 font-semibold">${modal.name}</h2>
@@ -144,6 +142,38 @@ const displayModal = (modal) => {
                     <h4 class="text-2xl mb-2 font-semibold">Description: <span class="text-normal font-normal">${modal.description}</span></h4>
     `
     document.getElementById("my_modal_5").showModal()
+}
+
+const loadCartDetails = (id) => {
+    // console.log(id)
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`
+    // console.log(url)
+    fetch(url)
+        .then(res => res.json())
+        .then(json => displayCart(json.plants))
+}
+
+const displayCart = (cart) => {
+    // console.log(cart)
+    const cartContainer = document.getElementById("cart-container")
+    // console.log(cartContainer)
+    const div = document.createElement("div")
+    div.innerHTML = `
+                    <div id="cart-info" class="bg-green-100 p-2 w-full h-[70px] rounded-2xl flex justify-between items-center">
+                        <div>
+                            <h2 class="text-lg font-medium">${cart.name}</h2>
+                            <h3 class=" font-medium">price: $<span class="font-bold">${cart.price}</span></h3>
+                        </div>
+                        <i onclick="clearCart(${cart.id})" class="fa-solid fa-xmark text-2xl"></i>
+                    </div>
+                    
+`
+    cartContainer.append(div)
+}
+
+const clearCart = (id) => {
+    console.log(id)
+
 }
 
 

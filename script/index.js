@@ -2,9 +2,21 @@
 
 
 const loadCategories = () => {
+    manageSpinner(true)
     fetch("https://openapi.programming-hero.com/api/categories")
         .then((res) => res.json())
         .then((json) => displayCategories(json.categories))
+}
+
+const manageSpinner = (status) => {
+    if (status == true) {
+        document.getElementById("spinner").classList.remove("hidden")
+        document.getElementById("content").classList.add("hidden")
+    }
+    else {
+        document.getElementById("spinner").classList.add("hidden")
+        document.getElementById("content").classList.remove("hidden")
+    }
 }
 
 const displayCategories = (categories) => {
@@ -28,7 +40,7 @@ const displayCategories = (categories) => {
         categoryContainer.append(categoryList)
 
     }
-
+    manageSpinner(false)
 }
 
 const removeActive = () => {
@@ -159,20 +171,49 @@ const displayCart = (cart) => {
     // console.log(cartContainer)
     const div = document.createElement("div")
     div.innerHTML = `
-                    <div id="cart-info" class="bg-green-100 p-2 w-full h-[70px] rounded-2xl flex justify-between items-center">
+                    <div id="cart-item" class="cart bg-green-100 p-2 w-full h-[70px] rounded-2xl mb-3 flex  justify-between items-center">
                         <div>
                             <h2 class="text-lg font-medium">${cart.name}</h2>
-                            <h3 class=" font-medium">price: $<span class="font-bold">${cart.price}</span></h3>
+                            <h3 class=" font-medium">price: $<span class="font-bold price">${cart.price}</span></h3>
                         </div>
                         <i onclick="clearCart(${cart.id})" class="fa-solid fa-xmark text-2xl"></i>
                     </div>
                     
 `
     cartContainer.append(div)
+    calculateAll()
 }
 
-const clearCart = (id) => {
-    console.log(id)
+let total = 0;
+const totalEl = document.getElementById("total")
+if (total === 0) {
+    totalEl.parentElement.style.display = "none"
+
+}
+const calculateAll = () => {
+    let total = 0
+    const prices = document.querySelectorAll(".cart .price");
+    console.log(prices)
+    prices.forEach(price => {
+        total += Number(price.innerHTML)
+    })
+    // console.log(total)
+
+    console.log(totalEl)
+    if (prices.length < 1) {
+        totalEl.parentElement.style.display = "none"
+    }
+    else {
+        totalEl.parentElement.style.display = "block"
+        document.getElementById("total").innerText = total;
+    }
+
+}
+
+const clearCart = () => {
+    const cartItem = document.getElementById("cart-item")
+    cartItem.remove()
+    calculateAll()
 
 }
 

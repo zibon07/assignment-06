@@ -71,19 +71,19 @@ const displayCategoryTrees = (trees) => {
         categoryTree.innerHTML = `
            <div id="tree-card"
                         class="bg-white flex flex-col gap-3 max-w-[350px] max-h-[480px] rounded-2xl shadow-3xl">
-                        <img class="w-full  max-h-50 rounded-t-2xl object-cover"
+                        <img class="w-full h-50  object-cover shrink-0 rounded-t-2xl "
                             src="${trees[i].image}" alt="">
                         <div class="mx-4 my-1">
-                            <h4 onclick="loadWPlantDetail(${trees[i].id})" class="text-3xl mb-2 font-bold">${trees[i].name}</h4>
-                            <p class="">${trees[i].description}</p>
+                            <h4 onclick="loadPlantDetail(${trees[i].id})" class="text-3xl mb-2 font-bold">${trees[i].name}</h4>
+                            <p class="text-sm">${trees[i].description}</p>
                         </div>
-                        <div class="flex mb-2 justify-between items-center mx-4">
+                        <div class="flex mb-1 justify-between items-center mx-4">
                             <h3
                                 class=" border-2 border-solid border-green-400   text-green-400 text-lg px-3 rounded-xl">
                                 ${trees[i].category}</h3>
                             <h2 class="text-xl font-bold text-green-700">৳<span>${trees[i].price}</span></h2>
                         </div>
-                        <button onclick="loadCartDetails(${trees[i].id})" class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                        <button onclick="loadCartDetails(${trees[i].id})" class="text-lg mx-2 mb-3 font-medium  rounded-4xl px-2 py-1 bg-[#15803D] text-white">Add to
                             Cart</button>
                     </div>
         `
@@ -114,12 +114,12 @@ const displayAllTrees = (allTrees) => {
 
         treeCard.innerHTML = `
         <div id="tree-card"
-                        class="bg-white flex flex-col gap-3 max-w-[330px] max-h-[500px] rounded-2xl shadow-3xl">
-                        <img class="w-full  max-h-50 rounded-t-2xl object-cover"
+                        class="bg-white flex  flex-col md:mb-3 gap-3 max-w-[330px] max-h-[500px] rounded-2xl shadow-3xl">
+                        <img class="w-full  h-50 rounded-t-2xl object-cover"
                             src="${allTrees[i].image}" alt="">
                         <div class="mx-4 my-1">
                             <h4 onclick="loadPlantDetail(${allTrees[i].id})" class="text-3xl mb-1 font-bold">${allTrees[i].name}</h4>
-                            <p class="">${allTrees[i].description}</p>
+                            <p class="text-sm">${allTrees[i].description}</p>
                         </div>
                         <div class="flex mb-1 justify-between items-center mx-4">
                             <h3
@@ -127,7 +127,7 @@ const displayAllTrees = (allTrees) => {
                                 ${allTrees[i].category}</h3>
                             <h2 class="text-xl font-bold text-green-700">৳<span>${allTrees[i].price}</span></h2>
                         </div>
-                        <button onclick="loadCartDetails(${allTrees[i].id})" class="text-lg mx-3 mb-3 font-medium  rounded-4xl px-2 py-3 bg-[#15803D] text-white">Add to
+                        <button onclick="loadCartDetails(${allTrees[i].id})" class="text-lg mx-2 mb-3 font-medium  rounded-4xl px-2 py-1 flex-1 bg-[#15803D] text-white">Add to
                             Cart</button>
                     </div>
         `
@@ -180,8 +180,12 @@ const displayCart = (cart) => {
                     </div>
                     
 `
+    showConfirmation()
     cartContainer.append(div)
     calculateAll()
+}
+const showConfirmation = () => {
+    alert("Add this Plant to Cart")
 }
 
 let total = 0;

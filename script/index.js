@@ -49,7 +49,6 @@ const removeActive = () => {
 }
 
 const loadCategoryTrees = (id) => {
-    // console.log(id)
     const url = `https://openapi.programming-hero.com/api/category/${id}`
     fetch(url)
         .then(res => res.json())
@@ -157,18 +156,16 @@ const displayModal = (modal) => {
 }
 
 const loadCartDetails = (id) => {
-    // console.log(id)
     const url = `https://openapi.programming-hero.com/api/plant/${id}`
-    // console.log(url)
     fetch(url)
         .then(res => res.json())
         .then(json => displayCart(json.plants))
 }
 
 const displayCart = (cart) => {
-    // console.log(cart)
+
     const cartContainer = document.getElementById("cart-container")
-    // console.log(cartContainer)
+
     const div = document.createElement("div")
     div.innerHTML = `
                     <div id="cart-item" class="cart bg-green-100 p-2 w-full h-[70px] rounded-2xl mb-3 flex  justify-between items-center">
@@ -197,13 +194,10 @@ if (total === 0) {
 const calculateAll = () => {
     let total = 0
     const prices = document.querySelectorAll(".cart .price");
-    console.log(prices)
     prices.forEach(price => {
         total += Number(price.innerHTML)
     })
-    // console.log(total)
 
-    console.log(totalEl)
     if (prices.length < 1) {
         totalEl.parentElement.style.display = "none"
     }
